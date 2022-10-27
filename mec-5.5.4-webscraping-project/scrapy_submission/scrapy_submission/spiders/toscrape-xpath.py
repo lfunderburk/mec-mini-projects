@@ -8,12 +8,12 @@ class QuotesSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        for quote in response.xpath('//div[(@class="quote")]'):
-            yield {
-                'text': quote.xpath('//span[@class="text"]/text()').get(),
-                'author': quote.xpath('//small[@class="author"]/text()').get(),
-                'tags': quote.xpath('//div[@class="tags"]/a[@class="tag"]/text()').getall(),
-            }
+        
+        yield {
+            'text': response.xpath('//div[(@class="quote")]/span[@class="text"]/text()').get(),
+            'author': response.xpath('//div[(@class="quote")]/small[@class="author"]/text()').get(),
+            'tags': response.xpath('//div[(@class="quote")]/a[@class="tag"]/text()').getall(),
+        }
 
         next_page = response.xpath('//li[@class="next"]/a/@href').get()
         if next_page is not None:
