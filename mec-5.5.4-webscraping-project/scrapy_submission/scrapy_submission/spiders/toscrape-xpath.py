@@ -9,11 +9,17 @@ class QuotesSpider(scrapy.Spider):
 
     def parse(self, response):
         
-        yield {
-            'text': response.xpath('//div[(@class="quote")]/span[@class="text"]/text()').get(),
-            'author': response.xpath('//div[(@class="quote")]/small[@class="author"]/text()').get(),
-            'tags': response.xpath('//div[(@class="quote")]/a[@class="tag"]/text()').getall(),
-        }
+        
+        quotes = response.xpath('//div[@class="quote"]')[0].xpath('//span[@class="text"]/text()').getall()
+        authors = response.xpath('//div[@class="quote"]')[0].xpath('//small[@class="author"]/text()').getall()
+        tags = response.xpath('//div[(@class="quote")]')[0].xpath('//a[@class="tag"]/text()').getall()
+	
+        for i in range(len(quotes)):
+            yield {
+                'text': quotes[i],
+                'author': authors[i],
+                'tags': authors[i],
+            }
 
         next_page = response.xpath('//li[@class="next"]/a/@href').get()
         if next_page is not None:
