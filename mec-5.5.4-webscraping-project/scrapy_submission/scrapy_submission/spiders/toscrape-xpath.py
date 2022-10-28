@@ -18,7 +18,7 @@ class QuotesSpider(scrapy.Spider):
             yield {
                 'text': quotes[i],
                 'author': authors[i],
-                'tags': authors[i],
+                'tags': tags[i],
             }
 
         next_page = response.xpath('//li[@class="next"]/a/@href').get()
